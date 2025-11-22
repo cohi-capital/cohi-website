@@ -687,9 +687,10 @@ textarea {
     }
 }
 
-/* Smooth scroll */
+/* Smooth scroll - removed to allow instant hash navigation */
+/* Smooth scrolling is handled via JavaScript for click events only */
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 /* Selection */

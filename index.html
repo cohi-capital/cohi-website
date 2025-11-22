@@ -9,6 +9,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // Prevent Chrome's default smooth scroll for hash navigation
+        // This must run immediately, before the page renders
+        (function() {
+            if (window.location.hash) {
+                const hash = window.location.hash;
+                // Scroll to top first to cancel any default scroll behavior
+                window.scrollTo(0, 0);
+                
+                // Then scroll to target instantly once DOM is ready
+                function jumpToHash() {
+                    const target = document.querySelector(hash);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        // Use instant scroll (no smooth behavior)
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'auto'
+                        });
+                    }
+                }
+                
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', jumpToHash);
+                } else {
+                    // Use requestAnimationFrame to ensure layout is complete
+                    requestAnimationFrame(function() {
+                        requestAnimationFrame(jumpToHash);
+                    });
+                }
+            }
+        })();
+    </script>
 </head>
 <body>
     <main>

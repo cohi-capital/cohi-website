@@ -127,9 +127,13 @@ function showMessage(message, type) {
     }
 }
 
-// Smooth scroll for anchor links
+// Track if we're handling a click vs external navigation
+let isInternalClick = false;
+
+// Smooth scroll for anchor links (when clicking buttons on the page)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        isInternalClick = true;
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -141,8 +145,36 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+            
+            // Update URL hash after smooth scroll starts
+            window.history.pushState(null, null, this.getAttribute('href'));
         }
+        // Reset flag after a short delay
+        setTimeout(() => { isInternalClick = false; }, 1000);
     });
+});
+
+// Note: Initial hash navigation is handled by inline script in <head>
+// This ensures it runs before Chrome applies default smooth scroll behavior
+
+// Handle hash changes (browser back/forward, or direct URL changes)
+// Only use instant scroll if it wasn't triggered by an internal click
+window.addEventListener('hashchange', function() {
+    if (!isInternalClick) {
+        const hash = window.location.hash;
+        const target = document.querySelector(hash);
+        if (target) {
+            const headerOffset = 80;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            // Jump instantly without animation for external hash changes
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'auto'
+            });
+        }
+    }
 });
 
 // Add scroll effect to header
