@@ -9,6 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Reddit Pixel -->
+    <script>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    // Initialize pixel - it will queue commands until pixel.js loads
+    rdt('init','a2_i2p2iw6fy3ri');
+    rdt('track', 'PageVisit');
+    </script>
+    <!-- DO NOT MODIFY UNLESS TO REPLACE A USER IDENTIFIER -->
+    <!-- End Reddit Pixel -->
+    
     <script>
         // Prevent Chrome's default smooth scroll for hash navigation
         // This must run immediately, before the page renders
@@ -173,7 +184,7 @@
                         <h2 class="section-title">Get in Touch</h2>
                         <p class="contact-subtitle">Ready to cut your energy costs? Let's talk.</p>
                     </div>
-                    <form id="contact-form" class="contact-form" action="https://formspree.io/f/myzlywnw" method="POST">
+                    <form id="contact-form" class="contact-form" method="POST">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" placeholder="Your name" required>
