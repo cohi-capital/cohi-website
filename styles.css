@@ -350,7 +350,7 @@ body {
 }
 
 .about::after {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.88));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.70));
     backdrop-filter: blur(1px);
 }
 
