@@ -47,11 +47,11 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     // Get form values
     const name = formData.get('name');
     const email = formData.get('email');
-    const phone = formData.get('phone') || '';
+    const phone = formData.get('phone');
     const message = formData.get('message');
     
     // Validation
-    if (!name || !email || !message) {
+    if (!name || !email || !phone || !message) {
         showMessage('Please fill in all required fields.', 'error');
         return;
     }
