@@ -50,8 +50,8 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     const phone = formData.get('phone');
     const message = formData.get('message');
     
-    // Simple validation (phone is optional)
-    if (!name || !email || !message) {
+    // Validation
+    if (!name || !email || !phone || !message) {
         showMessage('Please fill in all required fields.', 'error');
         return;
     }
@@ -68,42 +68,40 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     const originalButtonHTML = submitButton.innerHTML;
     submitButton.innerHTML = '<span>Sending...</span>';
     
+    // Prepare form data
+    const formSubmission = {
+        name: name,
+        email: email,
+        phone: phone,
+        message: message,
+        timestamp: new Date().toISOString(),
+        source: 'website_contact_form'
+    };
+    
     try {
-        // Submit to Formspree with AJAX
-        // Using Accept: application/json header tells Formspree to return JSON instead of redirecting
-        const payload = new FormData();
-        payload.append('name', name);
-        payload.append('email', email);
-        if (phone) {
-            payload.append('phone', phone);
+        // Submit to Google Apps Script (Google Drive/Sheets)
+        if (typeof GOOGLE_APPS_SCRIPT_URL !== 'undefined' && GOOGLE_APPS_SCRIPT_URL) {
+            await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Required for Google Apps Script (can't read response)
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formSubmission)
+            });
         }
-        payload.append('message', message);
         
-        const response = await fetch('https://formspree.io/f/myzlywnw', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: payload
-        });
-        
-        const responseData = await response.json();
-        
-        if (response.ok) {
-            showMessage('Thank you for your message! We\'ll get back to you soon.', 'success');
-            form.reset();
-        } else {
-            const errorMsg = responseData.error || 
-                           (responseData.errors && responseData.errors.map(err => err.message).join(', ')) || 
-                           'Form submission failed. Please try again.';
-            throw new Error(errorMsg);
+        // Track Reddit conversion via pixel (client-side)
+        if (typeof trackRedditConversion !== 'undefined') {
+            trackRedditConversion('Lead');
         }
+        
+        showMessage('Thank you for your message! We\'ll get back to you soon.', 'success');
+        form.reset();
+        
     } catch (error) {
         console.error('Form submission error:', error);
-        const fallbackMessage = error.message && error.message !== 'Failed to fetch'
-            ? error.message
-            : 'Something went wrong. Please check your connection and try again.';
-        showMessage(fallbackMessage, 'error');
+        showMessage('Something went wrong.', 'error');
     } finally {
         // Re-enable submit button
         submitButton.disabled = false;
@@ -154,9 +152,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Note: Initial hash navigation is handled by inline script in <head>
-// This ensures it runs before Chrome applies default smooth scroll behavior
-
 // Handle hash changes (browser back/forward, or direct URL changes)
 // Only use instant scroll if it wasn't triggered by an internal click
 window.addEventListener('hashchange', function() {
@@ -175,20 +170,4 @@ window.addEventListener('hashchange', function() {
             });
         }
     }
-});
-
-// Add scroll effect to header
-let lastScroll = 0;
-const header = document.querySelector('.header');
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
-    } else {
-        header.style.boxShadow = 'none';
-    }
-    
-    lastScroll = currentScroll;
 });
