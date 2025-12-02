@@ -101,7 +101,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
         
     } catch (error) {
         console.error('Form submission error:', error);
-        showMessage('Something went wrong. Please check your connection and try again.', 'error');
+        showMessage('Something went wrong.', 'error');
     } finally {
         // Re-enable submit button
         submitButton.disabled = false;

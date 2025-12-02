@@ -4,7 +4,7 @@
 
 // Initialize pixel with ID from config (if available)
 (function initRedditPixel() {
-    if (typeof REDDIT_PIXEL_ID !== 'undefined' && REDDIT_PIXEL_ID && REDDIT_PIXEL_ID !== 'YOUR_REDDIT_PIXEL_ID_HERE') {
+    if (typeof REDDIT_PIXEL_ID !== 'undefined' && REDDIT_PIXEL_ID) {
         rdt('init', REDDIT_PIXEL_ID);
         rdt('track', 'PageVisit');
     }
@@ -12,7 +12,7 @@
 
 // Track conversion event
 function trackRedditConversion(eventType, conversionId) {
-    if (typeof rdt !== 'undefined' && typeof REDDIT_PIXEL_ID !== 'undefined' && REDDIT_PIXEL_ID && REDDIT_PIXEL_ID !== 'YOUR_REDDIT_PIXEL_ID_HERE') {
+    if (typeof rdt !== 'undefined' && typeof REDDIT_PIXEL_ID !== 'undefined' && REDDIT_PIXEL_ID) {
         try {
             rdt('track', eventType, {
                 conversionId: conversionId || 'contact_form_submission_' + Date.now()
