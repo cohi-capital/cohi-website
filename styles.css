@@ -586,7 +586,19 @@ body {
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 1rem;
+}
+
+.form-group-radio {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.form-group-radio > label {
+    margin-bottom: 0;
+    flex-shrink: 0;
+    line-height: 1.5;
 }
 
 .form-group input,
@@ -623,24 +635,26 @@ textarea {
 
 .radio-group {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-top: 0;
 }
 
 .radio-label {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     cursor: pointer;
-    padding: 0.75rem;
+    padding: 0;
     border-radius: 8px;
     transition: background-color 0.2s ease;
     font-weight: 400;
+    line-height: 1.5;
+    transform: translateY(0.2rem);
 }
 
 .radio-label:hover {
-    background-color: var(--bg-tertiary);
+    background-color: transparent;
 }
 
 .radio-label input[type="radio"] {
@@ -654,6 +668,8 @@ textarea {
 .radio-label span {
     color: var(--text-primary);
     font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 .form-message {
