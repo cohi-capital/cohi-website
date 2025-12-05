@@ -49,9 +49,10 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     const email = formData.get('email');
     const phone = formData.get('phone');
     const message = formData.get('message');
+    const addressType = formData.get('address-type');
     
     // Validation
-    if (!name || !email || !phone || !message) {
+    if (!name || !email || !phone) {
         showMessage('Please fill in all required fields.', 'error');
         return;
     }
@@ -73,7 +74,8 @@ document.getElementById('contact-form').addEventListener('submit', async functio
         name: name,
         email: email,
         phone: phone,
-        message: message,
+        addressType: addressType,
+        message: message || '',
         timestamp: new Date().toISOString(),
         source: 'website_contact_form'
     };
